@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -36,5 +37,17 @@ public class Main {
         catch (IOException e){
             System.out.println("IOErr");
         }
+        JFrame frame = new JFrame("Drawing Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+
+        // 创建一个自定义的 DrawingExample 面板
+        DrawingExample drawingPanel = new DrawingExample(graph);
+
+        // 将面板添加到窗口中
+        frame.add(drawingPanel);
+
+        // 显示窗口
+        frame.setVisible(true);
     }
 }
