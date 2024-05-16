@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.LinkedList;
 
 public class DrawingExample extends JPanel {
+    int H;
     Graph Dgraph;
     public DrawingExample(Graph graph){
         this.Dgraph = graph;
@@ -11,29 +11,29 @@ public class DrawingExample extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         // 设置背景颜色
         this.setBackground(Color.WHITE);
-
-        // 设置绘图颜色
-        g.setColor(Color.RED);
-        // 绘制矩形
-        g.fillRect(50, 50, 100, 100);
-
-        g.setColor(Color.BLUE);
-        // 绘制椭圆
-        g.fillOval(200, 50, 100, 100);
-
-        g.setColor(Color.GREEN);
-        // 绘制线条
-        g.drawLine(50, 200, 150, 300);
-
-        g.setColor(Color.BLACK);
-        // 绘制字符串
-        //g.drawString("Hello, Java!", 200, 200);
-        g.drawString(Dgraph.List.get(3),200,200);
-        drawArrow(g,150,50,200,50);
+        for(int i=0;i<Dgraph.List.size();i++){
+            g.setColor(Color.BLACK);
+            // 绘制矩形
+            g.fillRect((120*(i+1)-90), 50, 90, 50);
+            g.setColor(Color.WHITE);
+            // 绘制字符串
+            g.drawString(Dgraph.List.get(i), (120*(i+1)-80), 70);
+        }
+         for(int k = 0;k<Dgraph.List.size();k++){
+            for(int j = 0;j<Dgraph.List.size();j++){
+                if(Dgraph.table[k][j] == 1){
+                    H++;
+                    g.setColor(Color.BLACK);
+                    drawArrow(g,120*(j+1)-60, 100+5*H, 120*(j+1)-60, 100);
+                    g.drawLine(120*(k+1)-30,100+5*H, 120*(k+1)-30,100);
+                    g.drawLine(120*(j+1)-60, 100+5*H, 120*(k+1)-30, 100+5*H);
+                }
+            }
+        }
     }
+
 
     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) {
         g.drawLine(x1, y1, x2, y2);

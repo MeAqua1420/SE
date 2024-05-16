@@ -26,12 +26,12 @@ public class Main {
                     i++;
                 }
                 System.out.println("num of Node = "+graph.V);
-                for(int k = 0;k<=6;k++){
+           /*      for(int k = 0;k<=6;k++){
                     for(int j = 0;j<=6;j++){
                         System.out.printf("%d ",graph.table[k][j]);
                     }
                     System.out.println(" ");
-                }
+                }*/
             }
         }
         catch (IOException e){
@@ -39,7 +39,7 @@ public class Main {
         }
         JFrame frame = new JFrame("Drawing Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(4000, 4000);
 
         // 创建一个自定义的 DrawingExample 面板
         DrawingExample drawingPanel = new DrawingExample(graph);
