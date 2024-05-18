@@ -23,6 +23,22 @@ public class Main {
             }
         }
     }
+    public static void generateNewText(String inputText,Graph graph){
+        String[] newdata = inputText.split(" ");
+        int wn;
+        for(wn = 0; wn < newdata.length-1 ;wn++){
+            LinkedList<Integer> Bridge =  graph.Bridge(newdata[wn],newdata[wn+1]);
+            if (Bridge.get(0) == -2 ||Bridge.get(0) == -1) {
+                System.out.printf(newdata[wn]+' ');
+            }
+            else{
+                System.out.printf(newdata[wn]+' ');
+                System.out.printf(graph.List.get(Bridge.get(0))+' ');
+            }
+        }
+        System.out.printf(newdata[wn]);
+    }
+
     public static void main(String[] args) {
         Graph graph = new Graph();
         Scanner Input = new Scanner(System.in);
@@ -56,19 +72,20 @@ public class Main {
         catch (IOException e){
             System.out.println("IOErr");
         }
-        BridgeWord("To","out",graph);
-        JFrame frame = new JFrame("Drawing Example");
+//        BridgeWord("To","out",graph);
+
+/*         JFrame frame = new JFrame("Drawing Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(4000, 4000);
-
         // 创建一个自定义的 DrawingExample 面板
         DrawingExample drawingPanel = new DrawingExample(graph);
-
         // 将面板添加到窗口中
         frame.add(drawingPanel);
-
         // 显示窗口
         frame.setVisible(true);
-
+*/
+        System.out.println("请输入待补全的句子：");
+        String newtxt = Input.nextLine();
+        generateNewText(newtxt,graph);   
     }
 }

@@ -32,7 +32,6 @@ public class Graph {
         }
         for(int i = 0;i<V;i++){
             if(table[index_l][i] != 0 && table[i][index_r] != 0){
-
                 result.add(i);
             }
         }
