@@ -91,12 +91,12 @@ public class Main {
                     i++;
                 }
                 System.out.println("num of Node = "+graph.V);
-                 for(int k = 0;k<=20;k++){
-                    for(int j = 0;j<=20;j++){
-                        System.out.printf("%d ",graph.table[k][j]);
-                    }
-                    System.out.println(" ");
-                }
+//                 for(int k = 0;k<=20;k++){
+//                    for(int j = 0;j<=20;j++){
+//                        System.out.printf("%d ",graph.table[k][j]);
+//                    }
+//                    System.out.println(" ");
+//                }
             }
         }
         catch (IOException e){
@@ -104,12 +104,12 @@ public class Main {
         }
         graph.init();
         graph.floyd();
-        for(int k = 0;k<=20;k++){
-            for(int j = 0;j<=20;j++){
-                System.out.printf("%d ",graph.path[k][j]);
-            }
-            System.out.println(" ");
-        }
+//        for(int k = 0;k<=20;k++){
+//            for(int j = 0;j<=20;j++){
+//                System.out.printf("%d ",graph.path[k][j]);
+//            }
+//            System.out.println(" ");
+//        }
 //
 
 

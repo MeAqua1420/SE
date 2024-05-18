@@ -35,11 +35,11 @@ public class Graph {
                 }
             }
         }
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < V; j++) {
-                System.out.println(i + " " + j + ":" + a[i][j]);
-            }
-        }
+//        for (int i = 0; i < V; i++) {
+//            for (int j = 0; j < V; j++) {
+//                System.out.println(i + " " + j + ":" + a[i][j]);
+//            }
+//        }
     }
     public void init(){
         for(int i = 0;i<100;i++){
