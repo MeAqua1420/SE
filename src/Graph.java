@@ -20,4 +20,23 @@ public class Graph {
         }
         return 0;
     }
+
+    public LinkedList<Integer> Bridge(String left,String right){
+        LinkedList<Integer> result = new LinkedList<Integer>();
+        int index_l = List.indexOf(left);
+        int index_r = List.indexOf(right);
+
+        if(index_l == -1 ||index_r == -1 ){
+            result.add(-1);
+            return result;
+        }
+        for(int i = 0;i<V;i++){
+            if(table[index_l][i] != 0 && table[i][index_r] != 0){
+
+                result.add(i);
+            }
+        }
+        result.add(-2);
+        return result;
+    }
 }

@@ -1,9 +1,28 @@
 import javax.swing.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 public class Main {
+
+    public static void BridgeWord(String left, String right, Graph g){
+        LinkedList<Integer> Bridge =  g.Bridge(left,right);
+        if(Bridge.get(0) == -1){
+            System.out.println("No word1 or word2!");
+        }
+        else if(Bridge.get(0) == -2){
+            System.out.println("No bridge word!");
+        }
+        else{
+            int i = 0;
+            System.out.printf("%s and %s bridge word are :",left,right);
+            while(i<Bridge.size() && Bridge.get(i) != -2) {
+                System.out.printf(" " + g.List.get(Bridge.get(i)));
+                i++;
+            }
+        }
+    }
     public static void main(String[] args) {
         Graph graph = new Graph();
         Scanner Input = new Scanner(System.in);
@@ -26,17 +45,18 @@ public class Main {
                     i++;
                 }
                 System.out.println("num of Node = "+graph.V);
-           /*      for(int k = 0;k<=6;k++){
-                    for(int j = 0;j<=6;j++){
-                        System.out.printf("%d ",graph.table[k][j]);
-                    }
-                    System.out.println(" ");
-                }*/
+//                 for(int k = 0;k<=20;k++){
+//                    for(int j = 0;j<=20;j++){
+//                        System.out.printf("%d ",graph.table[k][j]);
+//                    }
+//                    System.out.println(" ");
+//                }
             }
         }
         catch (IOException e){
             System.out.println("IOErr");
         }
+        BridgeWord("To","out",graph);
         JFrame frame = new JFrame("Drawing Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(4000, 4000);
@@ -49,5 +69,6 @@ public class Main {
 
         // 显示窗口
         frame.setVisible(true);
+
     }
 }
