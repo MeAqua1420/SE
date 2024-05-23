@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DrawingExample extends JPanel {
-    int H;
+    int H = 0;
     Graph Dgraph;
     public DrawingExample(Graph graph){
         this.Dgraph = graph;

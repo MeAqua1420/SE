@@ -1,15 +1,22 @@
-import javax.swing.*;
+import java.util.Random;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.*;
 public class Main {
+
+    static Graph graph = new Graph();
+
+
     public static boolean isEmptyOrWhitespace(String str) {
         return str == null || str.trim().isEmpty();
     }
-    public static void calcShortestPath(String word1,String word2,Graph graph){
+    public static void calcShortestPath(String word1,String word2){
         String Path = graph.getPath(graph.path, graph.List.indexOf(word1),graph.List.indexOf(word2),graph.table );
         Path = Path.trim();
         if(Objects.equals(word1, word2)){
@@ -31,13 +38,10 @@ public class Main {
             System.out.printf(" %s ",graph.List.get(Integer.valueOf(Path_S[Path_S.length-1])));
             System.out.printf("\n");
         }
-
-
-
     }
 
-    public static void BridgeWord(String left, String right, Graph g){
-        LinkedList<Integer> Bridge =  g.Bridge(left,right);
+    public static void queryBridgeWords(String left, String right){
+        LinkedList<Integer> Bridge =  graph.Bridge(left,right);
         if(Bridge.get(0) == -1){
             System.out.println("No word1 or word2!");
         }
@@ -48,12 +52,12 @@ public class Main {
             int i = 0;
             System.out.printf("%s and %s bridge word are :",left,right);
             while(i<Bridge.size() && Bridge.get(i) != -2) {
-                System.out.printf(" " + g.List.get(Bridge.get(i)));
+                System.out.printf(" " + graph.List.get(Bridge.get(i)));
                 i++;
             }
         }
     }
-    public static void generateNewText(String inputText,Graph graph){
+    public static void generateNewText(String inputText){
         String[] newdata = inputText.split(" ");
         int wn;
         for(wn = 0; wn < newdata.length-1 ;wn++){
@@ -68,9 +72,74 @@ public class Main {
         }
         System.out.printf(newdata[wn]);
     }
+    public static void randomWalk() {
+        int walktable[][] = new int[100][100];
+        Random random = new Random();
+        int rand = random.nextInt(graph.List.size());
+        LinkedList<String> randstr = new LinkedList<String>();
+        randstr.add(graph.List.get(rand));
+        int flag = end(rand,graph);
+        int randnext;
+        while (flag !=0) {
+            randnext = random.nextInt(flag);
+            int num = 0;
+            int next;
+            for(next = 0;next<graph.List.size();next++){
+                
+                if (graph.table[rand][next] != 0) {
+                    if (num == randnext) {
+                        break;
+                    }else{
+                        num++;
+                    }
+                }
+            }
+            if (walktable[rand][next] != 1) {
+            walktable[rand][next] = 1;
+            randstr.add(graph.List.get(next));
+            rand = next;
+            flag =  end(rand,graph);  
+            }else{
+                randstr.add(graph.List.get(next));
+                flag = 0;
+            }
+        }
+        writeFile(randstr);
 
+    }
+    public static void showDirectedGraph(){
+        JFrame frame = new JFrame("Drawing Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(4000, 4000);
+        // 创建一个自定义的 DrawingExample 面板
+        DrawingExample drawingPanel = new DrawingExample(graph);
+        // 将面板添加到窗口中
+        frame.add(drawingPanel);
+        // 显示窗口
+        frame.setVisible(true);
+    }
+    public static void writeFile(LinkedList<String> list) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+            int i;
+            for(i=0;i<list.size();i++){
+                bw.write(list.get(i)+' ');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+   
+    public static int end(int i ,Graph graph) {
+        int flag = 0;
+        int j;
+        for(j = 0;j<graph.List.size();j++){
+            if(graph.table[i][j]!=0)
+            flag ++;
+        }
+        return flag;
+    }
     public static void main(String[] args) {
-        Graph graph = new Graph();
+
         Scanner Input = new Scanner(System.in);
         System.out.println("请输入文件路径：");
         String Path = Input.nextLine();
@@ -90,20 +159,68 @@ public class Main {
                     }
                     i++;
                 }
-                System.out.println("num of Node = "+graph.V);
-//                 for(int k = 0;k<=20;k++){
-//                    for(int j = 0;j<=20;j++){
-//                        System.out.printf("%d ",graph.table[k][j]);
-//                    }
-//                    System.out.println(" ");
-//                }
-            }
+/*                System.out.println("num of Node = "+graph.V);
+                  for(int k = 0;k<=20;k++){
+                    for(int j = 0;j<=20;j++){
+                        System.out.printf("%d ",graph.table[k][j]);
+                    }
+                    System.out.println(" ");
+                }
+*/          }
         }
         catch (IOException e){
             System.out.println("IOErr");
         }
         graph.init();
         graph.floyd();
+        do{
+            System.out.println("请输入指令：");
+            System.out.println("1：展示有向图");
+            System.out.println("2：查询桥接词");
+            System.out.println("3：根据桥接词生成新文本");
+            System.out.println("4：计算最短路径");
+            System.out.println("5：随机游走");
+            System.out.println("-1：退出程序");
+            int int_i = Input.nextInt();
+            Input.nextLine();
+            switch (int_i){
+                case 1:
+                    showDirectedGraph();
+                    break;
+                case 2:
+                    System.out.println("查询桥接词，请输入两个单词");
+                    String shortest = Input.nextLine();
+                    String[] newdata = shortest.split(" ");
+                    queryBridgeWords(newdata[0],newdata[1]);
+                    break;
+                case 3:
+                    System.out.println("请输入待补全的句子：");
+                    String newtxt = Input.nextLine();
+                    generateNewText(newtxt);
+                    break;
+                case 4:
+                    System.out.println("计算最短路径，请输入起点和终点");
+                    String shortest2 = Input.nextLine();
+                    String[] newdata2 = shortest2.split(" ");
+                    if(newdata2.length == 2){
+                        calcShortestPath(newdata2[0],newdata2[1]);
+                    }
+                    if(newdata2.length == 1){
+                        for(int i = 0;i< graph.V;i++){
+                            calcShortestPath(newdata2[0],graph.List.get(i));
+                        }
+                    }
+                    break;
+                case 5:
+                    randomWalk();
+                    break;
+                case -1:
+                    Input.close();
+                    System.exit(0);
+            }
+        }while(true);
+
+
 //        for(int k = 0;k<=20;k++){
 //            for(int j = 0;j<=20;j++){
 //                System.out.printf("%d ",graph.path[k][j]);
@@ -129,7 +246,7 @@ public class Main {
 //        String newtxt = Input.nextLine();
 //        generateNewText(newtxt,graph);
 
-        System.out.println("计算最短路径，请输入起点和终点");
+/*        System.out.println("计算最短路径，请输入起点和终点");
         String shortest = Input.nextLine();
         String[] newdata = shortest.split(" ");
         if(newdata.length == 2){
@@ -140,5 +257,8 @@ public class Main {
                 calcShortestPath(newdata[0],graph.List.get(i),graph);
             }
         }
+*/   
+
+
     }
 }
