@@ -70,9 +70,12 @@ public class Graph {
             if(V != 0){
                 int indexP = List.indexOf(prev);
                 int indexN = List.indexOf(value);
-                table[indexP][indexN]++;
+                if(indexP != indexN) {
+                    table[indexP][indexN]++;
+                    E++;
+                }
             }
-            E++;
+
         }
         return 0;
     }
