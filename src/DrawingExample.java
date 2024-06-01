@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DrawingExample extends JPanel {
-    int H = 0;
     Graph Dgraph;
     public DrawingExample(Graph graph){
         this.Dgraph = graph;
@@ -16,19 +15,20 @@ public class DrawingExample extends JPanel {
         for(int i=0;i<Dgraph.List.size();i++){
             g.setColor(Color.BLACK);
             // 绘制矩形
-            g.fillRect((120*(i+1)-90), 50, 90, 50);
+            g.fillRect((60*(i+1)-45), 25, 45, 25);
             g.setColor(Color.WHITE);
             // 绘制字符串
-            g.drawString(Dgraph.List.get(i), (120*(i+1)-80), 70);
+            g.drawString(Dgraph.List.get(i), (60*(i+1)-40), 35);
         }
+        int H = 0;
          for(int k = 0;k<Dgraph.List.size();k++){
             for(int j = 0;j<Dgraph.List.size();j++){
                 if(Dgraph.table[k][j] == 1){
-                    H++;
+                    H = H+1;
                     g.setColor(Color.BLACK);
-                    drawArrow(g,120*(j+1)-60, 100+5*H, 120*(j+1)-60, 100);
-                    g.drawLine(120*(k+1)-30,100+5*H, 120*(k+1)-30,100);
-                    g.drawLine(120*(j+1)-60, 100+5*H, 120*(k+1)-30, 100+5*H);
+                    drawArrow(g,60*(j+1)-30, 50+20*H, 60*(j+1)-30, 50);
+                    g.drawLine(60*(k+1)-15,50+20*H, 60*(k+1)-15,50);
+                    g.drawLine(60*(j+1)-30, 50+20*H, 60*(k+1)-15, 50+20*H);
                 }
             }
         }

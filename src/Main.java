@@ -146,12 +146,18 @@ public class Main {
         System.out.println(Path);
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(Path))){
             String line;
+            String last = null;
+            int count_line = 0;
             while ((line = bufferedReader.readLine()) != null) {
                 // 将每行数据按空格分割
+                count_line++;
                 String[] data = line.split(" ");
                 int i = 0;
                 while(i< data.length){
                     if(i == 0){
+                        if(count_line>1){
+                            graph.AddNode(last,data[i]);
+                        }
                         graph.AddNode(data[i],data[i]);
                     }
                     else {
@@ -159,6 +165,7 @@ public class Main {
                     }
                     i++;
                 }
+                last = data[i-1];
 /*                System.out.println("num of Node = "+graph.V);
                   for(int k = 0;k<=20;k++){
                     for(int j = 0;j<=20;j++){
