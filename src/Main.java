@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.Test;
+
 import java.util.Random;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -12,7 +14,48 @@ public class Main {
 
     static Graph graph = new Graph();
 
-
+    public static void getReady(){
+        Scanner Input = new Scanner(System.in);
+        System.out.println("请输入文件路径：");
+        String Path = Input.nextLine();
+        //System.out.println(Path);
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(Path))){
+            String line;
+            String last = null;
+            int count_line = 0;
+            while ((line = bufferedReader.readLine()) != null) {
+                // 将每行数据按空格分割
+                count_line++;
+                String[] data = line.split(" ");
+                int i = 0;
+                while(i< data.length){
+                    if(i == 0){
+                        if(count_line>1){
+                            graph.AddNode(last,data[i]);
+                        }
+                        graph.AddNode(data[i],data[i]);
+                    }
+                    else {
+                        graph.AddNode(data[i-1],data[i]);
+                    }
+                    i++;
+                }
+                last = data[i-1];
+/*                System.out.println("num of Node = "+graph.V);
+                  for(int k = 0;k<=20;k++){
+                    for(int j = 0;j<=20;j++){
+                        System.out.printf("%d ",graph.table[k][j]);
+                    }
+                    System.out.println(" ");
+                }
+*/          }
+        }
+        catch (IOException e){
+            System.out.println("IOErr");
+        }
+        graph.init();
+        graph.floyd();
+    }
     public static boolean isEmptyOrWhitespace(String str) {
         return str == null || str.trim().isEmpty();
     }
@@ -40,22 +83,29 @@ public class Main {
         }
     }
 
-    public static void queryBridgeWords(String left, String right){
+    public static String queryBridgeWords(String left, String right){
         LinkedList<Integer> Bridge =  graph.Bridge(left,right);
+        String test1;
         if(Bridge.get(0) == -1){
             System.out.println("No word1 or word2!");
+            test1 = "No word1 or word2!";
         }
         else if(Bridge.get(0) == -2){
             System.out.println("No bridge word!");
+            test1 = "No bridge word!";
         }
         else{
             int i = 0;
             System.out.printf("%s and %s bridge word are :",left,right);
+            test1 = left+" and "+right+" bridge word are :";
             while(i<Bridge.size() && Bridge.get(i) != -2) {
                 System.out.printf(" " + graph.List.get(Bridge.get(i)));
+                test1+=" ";
+                test1+=graph.List.get(Bridge.get(i));
                 i++;
             }
         }
+        return test1;
     }
     public static void generateNewText(String inputText){
         String[] newdata = inputText.split(" ");
@@ -198,7 +248,8 @@ public class Main {
                     System.out.println("查询桥接词，请输入两个单词");
                     String shortest = Input.nextLine();
                     String[] newdata = shortest.split(" ");
-                    queryBridgeWords(newdata[0],newdata[1]);
+                    String hh = queryBridgeWords(newdata[0],newdata[1]);
+                    System.out.println(hh);
                     break;
                 case 3:
                     System.out.println("请输入待补全的句子：");
