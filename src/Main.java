@@ -59,15 +59,19 @@ public class Main {
     public static boolean isEmptyOrWhitespace(String str) {
         return str == null || str.trim().isEmpty();
     }
-    public static void calcShortestPath(String word1,String word2){
+    public static String calcShortestPath(String word1,String word2){
         String Path = graph.getPath(graph.path, graph.List.indexOf(word1),graph.List.indexOf(word2),graph.table );
         Path = Path.trim();
+        String test1 = "";
         if(Objects.equals(word1, word2)){
             System.out.printf(" %s -> %s\n",word1,word2);
-            return;
+            test1 = " "+word1+" -> "+word2;
+            return test1;
         }
         if(isEmptyOrWhitespace(Path)== true){
             System.out.printf(" %s -> %s have no road\n",word1,word2);
+            test1 = " "+word1+" -> "+word2+" have no road";
+            return test1;
         }
         else{
             String [] Path_S = Path.split("\\s+");
@@ -77,9 +81,16 @@ public class Main {
                     i++;
                 }
                 System.out.printf(" %s ->",graph.List.get(Integer.valueOf(Path_S[i])));
+                test1+=" ";
+                test1+=graph.List.get(Integer.valueOf(Path_S[i]));
+                test1+=" ->";
             }
             System.out.printf(" %s ",graph.List.get(Integer.valueOf(Path_S[Path_S.length-1])));
+            test1+=" ";
+            test1+=graph.List.get(Integer.valueOf(Path_S[Path_S.length-1]));
+            test1+=" ";
             System.out.printf("\n");
+            return test1;
         }
     }
 

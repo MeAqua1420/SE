@@ -66,4 +66,30 @@ public class MainTest {
         Assert.assertEquals(expectedOutput, Main.queryBridgeWords("Once","upon"));
 
     }
+    @Test
+    public void test5(){
+        // 调用Main类的getReady方法,读入文件
+        Main.getReady();
+
+        String expectedOutput = " Once -> Once";
+        Assert.assertEquals(expectedOutput,Main.calcShortestPath("Once","Once"));
+    }
+
+    @Test
+    public void test6(){
+        // 调用Main类的getReady方法,读入文件
+        Main.getReady();
+
+        String expectedOutput = " had -> a -> child -> as -> snow -> she ";
+        Assert.assertEquals(expectedOutput,Main.calcShortestPath("had","she"));
+    }
+
+    @Test
+    public void test7(){
+        // 调用Main类的getReady方法,读入文件
+        Main.getReady();
+
+        String expectedOutput = " upon -> Once have no road";
+        Assert.assertEquals(expectedOutput,Main.calcShortestPath("upon","Once"));
+    }
 }
